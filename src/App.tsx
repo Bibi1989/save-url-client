@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TabMenu from "./components/Tab";
+import styled from "styled-components";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { LinkProvider } from "./LinkContext/LinkProvider";
+import { UserProvider } from "./UserContext/UserProvider";
+import Register from "./components/Auths/Register";
+import NavBar from "./components/NavBar";
+import { HistoryProvider } from "./HistoryProvider/HistoryProvider";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <UserProvider>
+        <LinkProvider>
+          <HistoryProvider>
+            <NavBar />
+            <Switch>
+              <Route exact path='/'>
+                <Apps>
+                  <TabMenu />
+                </Apps>
+              </Route>
+              <Route exact path='/register'>
+                <Register />
+              </Route>
+            </Switch>
+          </HistoryProvider>
+        </LinkProvider>
+      </UserProvider>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
+
+const Apps = styled.div`
+  max-width: 96%;
+  margin: 3% auto;
+`;
