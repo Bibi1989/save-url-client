@@ -2,6 +2,7 @@ import React, { useContext, useRef } from "react";
 import styled from "styled-components";
 import { Icon, Button, Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { LinkContext } from "../LinkContext/LinkProvider";
 
 interface linkInterface {
   id: number;
@@ -10,6 +11,10 @@ interface linkInterface {
 }
 
 const DisplayComponent = ({ links, title = "Url" }: any) => {
+  const { deleteLink } = useContext(LinkContext);
+  const handleDelete = (id: number) => {
+    deleteLink(id);
+  };
   return (
     <Container>
       <Header style={{ padding: "1em" }}>Your {title} Links</Header>
@@ -24,9 +29,24 @@ const DisplayComponent = ({ links, title = "Url" }: any) => {
                 <p>
                   <Icon name='unlinkify' /> {link.link}
                 </p>
-                <a href={link.link} target='blank'>
-                  <Button>Go To Site</Button>
-                </a>
+                <div>
+                  <Icon
+                    className='icon'
+                    name='edit'
+                    color='teal'
+                    size='large'
+                  />
+                  <Icon
+                    className='icon'
+                    name='trash'
+                    color='red'
+                    size='large'
+                    onClick={() => handleDelete(Number(link.id))}
+                  />
+                  <a href={link.link} target='blank'>
+                    <Button>Go To Site</Button>
+                  </a>
+                </div>
               </Flex>
             </div>
           </Li>
@@ -51,4 +71,9 @@ const Flex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .icon {
+    cursor: pointer;
+    margin-right: 0.5em;
+  }
 `;

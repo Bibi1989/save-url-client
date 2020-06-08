@@ -9,34 +9,41 @@ const NavBar = () => {
   const handleItemClick = (e: any, { name }: any) =>
     setState({ activeItem: name });
   return (
-    <Container>
-      <Menu secondary>
-        <Menu.Item
-          name='home'
-          active={state.activeItem === "home"}
-          onClick={() => history.push("/")}
-        />
-        <Menu.Menu position='right'>
+    <div style={{ background: "#999", color: "#fff !important" }}>
+      <Container>
+        <Menu secondary style={{ color: "#fff !important" }}>
           <Menu.Item
-            name='login'
-            active={state.activeItem === "login"}
-            onClick={handleItemClick}
+            name='home'
+            active={state.activeItem === "home"}
+            onClick={() => history.push("/")}
+            style={{ background: "#999", color: "#fff !important" }}
           />
-          <Menu.Item
-            name='register'
-            active={state.activeItem === "register"}
-            onClick={() => history.push("/register")}
-          />
-          <Menu.Item
-            name='logout'
-            active={state.activeItem === "logout"}
-            onClick={() => {
-              sessionStorage.removeItem("link_token");
-            }}
-          />
-        </Menu.Menu>
-      </Menu>
-    </Container>
+          <Menu.Menu
+            position='right'
+            style={{ background: "#999", color: "#fff !important" }}
+          >
+            <Menu.Item
+              name='login'
+              active={state.activeItem === "login"}
+              onClick={() => history.push("/login")}
+            />
+            <Menu.Item
+              name='register'
+              active={state.activeItem === "register"}
+              onClick={() => history.push("/register")}
+              style={{ background: "#999", color: "#fff !important" }}
+            />
+            <Menu.Item
+              name='logout'
+              active={state.activeItem === "logout"}
+              onClick={() => {
+                sessionStorage.removeItem("link_token");
+              }}
+            />
+          </Menu.Menu>
+        </Menu>
+      </Container>
+    </div>
   );
 };
 
