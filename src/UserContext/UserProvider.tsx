@@ -4,27 +4,32 @@ import axios from "axios";
 const types = {
   REGISTER: "REGISTER",
   LOGIN: "LOGIN",
+  LOADING: "LOADING",
 };
 
-interface states {
-  register: null;
-  login: null;
-}
-
 interface userInterface {
-  username: string;
+  username?: string;
   email: string;
   password: string;
 }
 
+interface IState {
+  register: userInterface | null;
+  login: userInterface | null;
+  loading: boolean;
+  error?: any;
+}
+
 export const UserContext = createContext<any>(null);
 
-const initialState = {
+const initialState: IState = {
   register: null,
   login: null,
+  loading: false,
+  error: null,
 };
 
-const reducer = (state: states, action: any) => {
+const reducer = (state: IState, action: any) => {
   switch (action.type) {
     case types.REGISTER:
       return {
@@ -35,6 +40,11 @@ const reducer = (state: states, action: any) => {
       return {
         ...state,
         login: action.payload,
+      };
+    case types.LOADING:
+      return {
+        ...state,
+        loading: action.payload,
       };
 
     default:
@@ -53,7 +63,6 @@ export const UserProvider = ({ children }: any) => {
         "Content-type": "application/json",
       },
     });
-    console.log(response.data.data.token);
     sessionStorage.setItem(
       "link_token",
       JSON.stringify(response.data.data.token)
@@ -61,10 +70,28 @@ export const UserProvider = ({ children }: any) => {
     dispatch({ type: types.REGISTER, payload: response.data.data });
   };
 
+  const loginUser = async (user: userInterface, path: any) => {
+    dispatch({ type: types.LOADING, payload: true });
+    const response = await axios.post(`${USER_URL}/login`, user, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    sessionStorage.setItem(
+      "link_token",
+      JSON.stringify(response.data.data.token)
+    );
+    window.location.href = path;
+    dispatch({ type: types.LOADING, payload: false });
+    dispatch({ type: types.REGISTER, payload: response.data.data });
+  };
+
   return (
     <UserContext.Provider
       value={{
+        loading: state.loading,
         registerUser,
+        loginUser,
       }}
     >
       {children}

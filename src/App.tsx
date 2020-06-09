@@ -7,6 +7,8 @@ import { UserProvider } from "./UserContext/UserProvider";
 import Register from "./components/Auths/Register";
 import NavBar from "./components/NavBar";
 import { HistoryProvider } from "./HistoryProvider/HistoryProvider";
+import Login from "./components/Auths/Login";
+import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
   return (
@@ -16,10 +18,9 @@ const App = () => {
           <HistoryProvider>
             <NavBar />
             <Switch>
-              <Route exact path='/'>
-                <Apps>
-                  <TabMenu />
-                </Apps>
+              <PrivateRoute exact path='/' component={TabMenu} />
+              <Route exact path='/login'>
+                <Login />
               </Route>
               <Route exact path='/register'>
                 <Register />

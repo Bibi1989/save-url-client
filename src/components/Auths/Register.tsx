@@ -2,6 +2,7 @@ import React, { useState, FormEvent, useContext } from "react";
 import { Form, Header, FormInputProps, Button } from "semantic-ui-react";
 import styled from "styled-components";
 import { UserContext } from "../../UserContext/UserProvider";
+import AuthForm from "./commons/AuthForm";
 
 const Register = () => {
   const { registerUser } = useContext(UserContext);
@@ -21,12 +22,7 @@ const Register = () => {
     registerUser(user);
   };
   return (
-    <Container>
-      <Header
-        style={{ textAlign: "center", fontSize: "2.5em", padding: "1em" }}
-      >
-        Register Here
-      </Header>
+    <AuthForm title='Register Here'>
       <Form onSubmit={onsubmit}>
         <Form.Group widths='equal'>
           <Form.Input
@@ -56,7 +52,7 @@ const Register = () => {
         </Form.Field>
         <Button type='submit'>Register</Button>
       </Form>
-    </Container>
+    </AuthForm>
   );
 };
 

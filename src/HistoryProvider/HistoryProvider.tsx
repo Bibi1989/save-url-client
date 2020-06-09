@@ -50,8 +50,8 @@ const reducer = (state: states, action: any) => {
   }
 };
 
-const LINK_URL = "https://save-url.herokuapp.com/api/v1/history";
-// const LINK_URL = "http://localhost:5000/api/v1/history";
+// const LINK_URL = "https://save-url.herokuapp.com/api/v1/history";
+const LINK_URL = "http://localhost:5000/api/v1/history";
 
 export const HistoryProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
