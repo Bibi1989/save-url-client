@@ -52,7 +52,8 @@ const reducer = (state: IState, action: any) => {
   }
 };
 
-const USER_URL = "http://localhost:5000/auth/v1";
+const USER_URL = "https://save-url.herokuapp.com/auth/v1";
+// const USER_URL = "http://localhost:5000/auth/v1";
 
 export const UserProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -71,19 +72,24 @@ export const UserProvider = ({ children }: any) => {
   };
 
   const loginUser = async (user: userInterface, path: any) => {
-    dispatch({ type: types.LOADING, payload: true });
-    const response = await axios.post(`${USER_URL}/login`, user, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    sessionStorage.setItem(
-      "link_token",
-      JSON.stringify(response.data.data.token)
-    );
-    window.location.href = path;
-    dispatch({ type: types.LOADING, payload: false });
-    dispatch({ type: types.REGISTER, payload: response.data.data });
+    try {
+      dispatch({ type: types.LOADING, payload: true });
+      const response = await axios.post(`${USER_URL}/login`, user, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      console.log(response.data.data);
+      sessionStorage.setItem(
+        "link_token",
+        JSON.stringify(response.data.data.token)
+      );
+      window.location.href = path;
+      dispatch({ type: types.LOADING, payload: false });
+      dispatch({ type: types.REGISTER, payload: response.data.data });
+    } catch (error) {
+      dispatch({ type: types.LOADING, payload: false });
+    }
   };
 
   return (

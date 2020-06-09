@@ -12,7 +12,7 @@ const Spinner = () => {
 export default Spinner;
 
 const SpinnerStyle = styled.div`
-  height: 100vh;
+  height: 93vh;
   position: absolute;
   width: 100%;
   display: flex;

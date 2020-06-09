@@ -4,15 +4,13 @@ import { Form, Header, FormInputProps, Button } from "semantic-ui-react";
 import { useHistory, useLocation } from "react-router-dom";
 import { UserContext } from "../../UserContext/UserProvider";
 import AuthForm from "./commons/AuthForm";
+import Spinner from "../../Spinner";
 
 const Login = () => {
   const history = useHistory();
-  const location = useLocation();
   const { loginUser, loading } = useContext(UserContext);
 
   const path = window.location.origin;
-
-  console.log({ loading });
 
   const [user, setUser] = useState({
     email: "",
@@ -28,6 +26,10 @@ const Login = () => {
     e.preventDefault();
     loginUser(user, path);
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <AuthForm title='Login Here'>
       <Form onSubmit={onsubmit}>

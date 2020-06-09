@@ -64,6 +64,7 @@ export const LinkProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addLinks = async (link: linksInterface) => {
+    console.log({ link });
     try {
       const token: any = sessionStorage.getItem("link_token");
       const response = await axios.post(LINK_URL, link, {
