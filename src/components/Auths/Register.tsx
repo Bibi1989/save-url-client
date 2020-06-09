@@ -3,9 +3,13 @@ import { Form, Header, FormInputProps, Button } from "semantic-ui-react";
 import styled from "styled-components";
 import { UserContext } from "../../UserContext/UserProvider";
 import AuthForm from "./commons/AuthForm";
+import Spinner from "../../Spinner";
 
 const Register = () => {
-  const { registerUser } = useContext(UserContext);
+  const { registerUser, loading } = useContext(UserContext);
+
+  const path = window.location.origin;
+
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -19,8 +23,11 @@ const Register = () => {
   };
   const onsubmit = (e: FormEvent) => {
     e.preventDefault();
-    registerUser(user);
+    registerUser(user, path);
   };
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <AuthForm title='Register Here'>
       <Form onSubmit={onsubmit}>

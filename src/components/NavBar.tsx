@@ -41,15 +41,18 @@ const NavBar = () => {
                 />
               </>
             ) : (
-              <Menu.Item
-                name='logout'
-                active={state.activeItem === "logout"}
-                onClick={() => {
-                  setChange(!change);
-                  sessionStorage.removeItem("link_token");
-                  history.push("/login");
-                }}
-              />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <p>Welcome</p>
+                <Menu.Item
+                  name='logout'
+                  active={state.activeItem === "logout"}
+                  onClick={() => {
+                    setChange(!change);
+                    sessionStorage.removeItem("link_token");
+                    history.push("/login");
+                  }}
+                />
+              </div>
             )}
           </Menu.Menu>
         </Menu>

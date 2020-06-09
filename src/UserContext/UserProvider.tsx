@@ -58,20 +58,27 @@ const USER_URL = "https://save-url.herokuapp.com/auth/v1";
 export const UserProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const registerUser = async (user: userInterface) => {
-    const response = await axios.post(`${USER_URL}/register`, user, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    sessionStorage.setItem(
-      "link_token",
-      JSON.stringify(response.data.data.token)
-    );
-    dispatch({ type: types.REGISTER, payload: response.data.data });
+  const registerUser = async (user: userInterface, path: string) => {
+    dispatch({ type: types.LOADING, payload: true });
+    try {
+      const response = await axios.post(`${USER_URL}/register`, user, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      sessionStorage.setItem(
+        "link_token",
+        JSON.stringify(response.data.data.token)
+      );
+      window.location.href = path;
+      dispatch({ type: types.LOADING, payload: false });
+      dispatch({ type: types.REGISTER, payload: response.data.data });
+    } catch (error) {
+      dispatch({ type: types.LOADING, payload: false });
+    }
   };
 
-  const loginUser = async (user: userInterface, path: any) => {
+  const loginUser = async (user: userInterface, path: string) => {
     try {
       dispatch({ type: types.LOADING, payload: true });
       const response = await axios.post(`${USER_URL}/login`, user, {
